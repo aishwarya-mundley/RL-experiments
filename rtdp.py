@@ -40,14 +40,12 @@ class RTDP:
             return (x, y - 1)
         return state
     
-    def reward(self, state, next_action, actual_next_state):
-        if actual_next_state == (0,0):
-            return 100
+    def reward(self, state, actual_next_state):
         if actual_next_state == state:
             return -10
         return -1
 
-    def rtdp(self, state_space, actions, initial_state):
+    def rtdp(self, initial_state):
 
         gamma = 0.99 #discount factor from bellman equation
         epsilon = 0.9 # exploration rate
@@ -65,8 +63,8 @@ class RTDP:
                 next_action = self.random_action() if random.random() < epsilon else best_action
                 actual_next_state = self.get_next_state(state, next_action)
                 # Bellman update
-                max_future_value = max(self.V[self.get_next_state(state, a)] for a in actions)
-                reward_value = self.reward(state, next_action, actual_next_state)
+                max_future_value = self.V[actual_next_state]
+                reward_value = self.reward(state, actual_next_state)
                 self.V[state] = reward_value + gamma * max_future_value
                 state = actual_next_state
             epsilon *= epsilon_decay
@@ -155,7 +153,7 @@ if __name__ == "__main__":
         for y in range(-4,5):
             state_space.append((x,y))
     rtdp_agent = RTDP(state_space, actions)
-    response = rtdp_agent.rtdp(state_space, actions, (2,2))
+    response = rtdp_agent.rtdp((2,2))
     for i in range(-4,5):
         for j in range(-4,5):
             state = (i,j)
