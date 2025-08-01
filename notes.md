@@ -1,4 +1,4 @@
-Starting this notes to pen down my thoughts/questions on classic RL and it's reasoning applications in LLMs
+Starting this notes to penn down my understandings of RL concepts
 
 **Gradient ascent**
 
