@@ -73,6 +73,7 @@ REINFORCE uses entire rewards-to-go to judge each action, which means a single l
 $$δ=r+γV_ϕ​(s')−V_ϕ​(s)$$
 
    Here $r$ is the reward received after acting on state $s$. The Critic model gives the value for state $s$ and $s'$. The new updated value of current state is given by $r+γV_ϕ​(s')$ and $δ$ represents "surprise" i.e. how much better/worse the outcome was than the Critic predicted.
+
 4. Update the Actor - The loss is calculated as follows for Actor model : 
 
 $$Loss=-δ*log_{π_θ}(a_t|s_t)$$
@@ -81,6 +82,7 @@ $$Loss=-δ*log_{π_θ}(a_t|s_t)$$
    
 (a) $δ$ is positive - which means the new outcome is much better (better surprise) than the previous, hence we increase the probability of $a$ in state $s$.   
 (b) $δ$ is negative - which means the new outcome is worse (bad surprise) than the previous, hence we decrease the probability of $a$ in state $s$.
+
 5. Update the Critic - We need to update the Critic to improve its ability to evaluate states. The loss is calculated as the square of TD error $δ^2$ and we train it to estimate $V(s)$ to be closer to target $r+γVϕ​(s′)$ 
 
 **Actor-Critic with GAE**  
@@ -99,6 +101,7 @@ $$δ_t=r_t+γV_ϕ​(s_{t+1})−V_ϕ​(s_t)$$
 $$A_t^{GAE}​=∑_{l=0}^{T−t}​(γλ)^lδ_{t+l}​$$
 
    The lambda $λ$ controls the bias-variance trade-off and is between 0 and 1.
+
 5. Update the Actor - Using the GAE, we calculate the loss for actor as the average over entire trajectory :
 
 $$−1/T​∑_{t=0}^T​A_t^{GAE}​⋅logπ_θ​(a_t​∣s_t​)$$
